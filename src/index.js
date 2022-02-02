@@ -39,27 +39,29 @@ const MORSE_TABLE = {
 
 function decode(expr) {
   let exprMorse = [];
-  for (let i = 0; i < Math.ceil(expr.length / 8); i++) {
-    exprMorse[i] = expr.slice(i * 8, i * 8 + 8);
+  let temp = [];
+
+  for (let i = 0; i < Math.ceil(expr.length / 10); i++) {
+    exprMorse[i] = expr.slice(i * 10, i * 10 + 10);
   }
-  console.log(exprMorse);
-  for (let i = 0; i < exprMorse.length; i++) {
-    for (let j = 0; j < Math.ceil(exprMorse[i].length / 2); j++) {
-      exprMorse[i][j] = exprMorse[i].slice(j * 2, j * 2 + 2);
-    }
-  }
-  for (let i = 0; i < exprMorse.length; i++) {
-    exprMorse[i] == "10"
-      ? (exprMorse[i] = ".")
-      : exprMorse[i] == "11"
-      ? (exprMorse[i] = "-")
-      : exprMorse[i] == "**"
-      ? (exprMorse[i] = " ")
-      : (exprMorse[i] = "");
-  }
-  console.log(exprMorse);
-  exprMorse = exprMorse.join(" ");
-  console.log(exprMorse);
+
+  console.log(exprMorse); //['0010101010', '0000000010', '0010111010', '0010111010', '0000111111', '**********', '0000101111', '0000111111', '0000101110', '0010111010', '0000111010']
+
+  temp = exprMorse
+    .map((el) =>
+      el
+        .split(/(\d{2})/)
+        .filter((el) => el != "")
+        .map((el) => {
+          return el == "10" ? "." : el == "11" ? "-" : el == "**" ? " " : "";
+        })
+    )
+    .map((el) => el.join("")) // ['....', '.', '.-..', '.-..', '---', '', '.--', '---', '.-.', '.-..', '-..']
+    .map((el) => MORSE_TABLE[el] || " ");
+
+  console.log(temp);
+  
+  return temp.join("");
 }
 
 module.exports = {
