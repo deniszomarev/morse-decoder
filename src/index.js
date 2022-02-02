@@ -38,14 +38,12 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-  let exprMorse = [];
-  let temp = [];
+  let exprMorse = [],
+    temp = [];
 
   for (let i = 0; i < Math.ceil(expr.length / 10); i++) {
     exprMorse[i] = expr.slice(i * 10, i * 10 + 10);
   }
-
-  console.log(exprMorse); //['0010101010', '0000000010', '0010111010', '0010111010', '0000111111', '**********', '0000101111', '0000111111', '0000101110', '0010111010', '0000111010']
 
   temp = exprMorse
     .map((el) =>
@@ -56,11 +54,9 @@ function decode(expr) {
           return el == "10" ? "." : el == "11" ? "-" : el == "**" ? " " : "";
         })
     )
-    .map((el) => el.join("")) // ['....', '.', '.-..', '.-..', '---', '', '.--', '---', '.-.', '.-..', '-..']
+    .map((el) => el.join(""))
     .map((el) => MORSE_TABLE[el] || " ");
 
-  console.log(temp);
-  
   return temp.join("");
 }
 
